@@ -59,6 +59,37 @@ Foram gerados os seguintes artefatos:
 
 Com isso, a etapa de Engenharia de Dados e Pipeline foi concluída, entregando um dataset estruturado, validado e pronto para o treinamento dos modelos de classificação de imagens médicas.
 
+8. Estrutura do Dataset Processado
+
+Os dados processados foram organizados em três conjuntos:
+
+- train/
+- val/
+- test/
+
+Devido às limitações de tamanho do GitHub, os conjuntos foram compactados por classe.
+
+Exemplo:
+
+processed/
+├── train/
+│   ├── train_glioma.zip
+│   ├── train_meningioma.zip
+│   ├── train_notumor.zip
+│   └── train_pituitary.zip
+│
+├── val/
+│   ├── val_glioma.zip
+│   ├── val_meningioma.zip
+│   ├── val_notumor.zip
+│   └── val_pituitary.zip
+│
+└── test/
+    ├── test_glioma.zip
+    ├── test_meningioma.zip
+    ├── test_notumor.zip
+    └── test_pituitary.zip
+
 ## Entrega para o Cientista de IA
 
 O conjunto de dados encontra-se totalmente preparado para treinamento de modelos de Deep Learning.
