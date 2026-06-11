@@ -58,3 +58,29 @@ Foram gerados os seguintes artefatos:
 - dashboard_dataset_final.png
 
 Com isso, a etapa de Engenharia de Dados e Pipeline foi concluída, entregando um dataset estruturado, validado e pronto para o treinamento dos modelos de classificação de imagens médicas.
+
+## Entrega para o Cientista de IA
+
+O conjunto de dados encontra-se totalmente preparado para treinamento de modelos de Deep Learning.
+
+Características finais:
+
+* Formato RGB
+* Resolução padronizada em 224x224 pixels
+* Normalização aplicada
+* Dataset balanceado
+* Divisão em:
+
+  * Train (4.760 imagens)
+  * Validation (840 imagens)
+  * Test (1.600 imagens)
+
+Classes disponíveis:
+
+* Glioma
+* Meningioma
+* No Tumor
+* Pituitary
+
+Os dados estão organizados em estrutura compatível com TensorFlow/Keras e PyTorch, permitindo treinamento direto de modelos CNN e arquiteturas de Transfer Learning.
+
