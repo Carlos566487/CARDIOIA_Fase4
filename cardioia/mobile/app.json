@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "CardioIA",
+    "slug": "cardioia",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#0F172A"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "O CardioIA precisa acessar sua galeria para selecionar imagens médicas.",
+        "NSCameraUsageDescription": "O CardioIA precisa da câmera para capturar imagens médicas."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0F172A"
+      },
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "CAMERA"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-image-picker"
+    ],
+    "scheme": "cardioia"
+  }
+}
