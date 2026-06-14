@@ -1,76 +1,72 @@
-CARDIOIA — FASE 4
-Relatório Técnico — Engenheiro de Dados e Pipeline
+# 🫀 CardioIA — Fase 4
+## Pipeline de Engenharia de Dados e Estruturação de Datasets
 
-1. Objetivo da Etapa
+Este repositório contém a documentação, estrutura e artefatos gerados durante a **Fase 4** do projeto **CardioIA**. Esta etapa foi de responsabilidade da equipe de Engenharia de Dados e Pipeline, focando na transformação, padronização e otimização de imagens médicas brutas para torná-las prontas para o treinamento de modelos de Visão Computacional (Redes Neurais Convolucionais).
 
-Esta etapa teve como objetivo preparar o conjunto de imagens médicas para utilização nos modelos de Visão Computacional do projeto CardioIA. A responsabilidade do Engenheiro de Dados e Pipeline foi transformar imagens brutas em dados organizados, padronizados e prontos para treinamento de redes neurais convolucionais.
+---
 
-2. Dataset Selecionado
+## 🎯 1. Objetivo da Etapa
 
-Foi selecionado o Brain Tumor MRI Dataset, composto por 7.200 imagens de ressonância magnética cerebral organizadas em quatro classes: Glioma, Meningioma, No Tumor e Pituitary. A escolha foi feita por se tratar de um dataset público, estruturado, balanceado e adequado para classificação multiclasses em imagens médicas.
+O objetivo principal desta fase foi estabelecer um pipeline robusto de processamento de dados capaz de transformar um conjunto heterogêneo de imagens médicas em um dataset altamente estruturado e padronizado. Essa preparação garante a compatibilidade e a eficiência para o treinamento subsequente de arquiteturas de *Deep Learning* (CNNs simples e modelos de *Transfer Learning*).
 
-3. Inspeção Inicial dos Dados
+---
 
-A inspeção inicial identificou que o dataset original estava dividido em dois conjuntos principais: Training e Testing. Cada classe possuía 1.400 imagens no conjunto de treinamento e 400 imagens no conjunto de teste, totalizando 7.200 imagens. Também foi verificado que as imagens estavam em formato JPEG, majoritariamente com resolução 512×512 pixels, em modo L, ou seja, escala de cinza.
+## 📊 2. Dataset Selecionado
 
-4. Pré-processamento Aplicado
+Para o desenvolvimento e validação do pipeline, foi utilizado o **Brain Tumor MRI Dataset**. 
 
-Foram aplicadas as seguintes etapas de pré-processamento:
+* **Características principais:** Publico, pré-estruturado e balanceado.
+* **Volume total:** 7.200 imagens de ressonância magnética cerebral.
+* **Classes:** Organizado em 4 classes de diagnóstico para classificação multiclasse:
+  1. `Glioma`
+  2. `Meningioma`
+  3. `No Tumor` (Sem tumor)
+  4. `Pituitary` (Tumor na hipófise)
 
-- Conversão das imagens de escala de cinza para RGB;
-- Redimensionamento das imagens para 224×224 pixels;
-- Organização das imagens em diretórios padronizados;
-- Criação do conjunto de validação a partir do conjunto original de treinamento;
-- Geração de arquivo metadata_dataset.csv contendo caminho da imagem, classe e split correspondente.
+---
 
-A conversão para RGB foi necessária para garantir compatibilidade com modelos de Transfer Learning, como VGG16, ResNet e MobileNet, que normalmente recebem imagens com três canais. O redimensionamento para 224×224 pixels foi adotado por ser um padrão amplamente utilizado em arquiteturas convolucionais pré-treinadas.
+## 🔍 3. Inspeção Inicial dos Dados
 
-5. Estrutura Final do Dataset
+A análise exploratória inicial dos dados brutos revelou as seguintes características estruturais:
+* **Divisão Original:** O dataset veio dividido em dois grandes blocos: `Training` (5.600 imagens) e `Testing` (1.600 imagens).
+* **Distribuição Nativa:** Cada uma das 4 classes possuía exatamente 1.400 imagens no bloco de treino e 400 imagens no bloco de teste.
+* **Formatos Técnicos:** Imagens em formato `.jpeg`, resolução majoritária de `512×512` pixels, codificadas em **Modo L** (escala de cinza de 8 bits).
 
-Após o pipeline, o dataset processado ficou organizado em três conjuntos:
+---
 
-Train: 4.760 imagens
-Validation: 840 imagens
-Test: 1.600 imagens
+## 🔧 4. Pipeline de Pré-processamento Aplicado
 
-Cada classe manteve distribuição balanceada:
+Para garantir a conformidade com os requisitos das arquiteturas modernas de redes neurais, foram aplicadas de forma automatizada as seguintes transformações:
 
-Train: 1.190 imagens por classe
-Validation: 210 imagens por classe
-Test: 400 imagens por classe
+1. **Conversão de Modo de Cor (Grayscale ➡️ RGB):** As imagens foram convertidas de escala de cinza para o espaço de cor RGB (3 canais). Essa etapa é crucial para permitir o uso de técnicas de *Transfer Learning* com modelos consagrados (ex: *VGG16, ResNet, MobileNet*), que exigem nativamente tensores de entrada tridimensionais.
+2. **Redimensionamento Espacial:**
+   Todas as imagens foram redimensionadas de forma fixa para **`224×224` pixels**, alinhando-se com o padrão de entrada das principais arquiteturas convolucionais de mercado.
+3. **Divisão de Validação (*Split*):**
+   Foi extraído um conjunto de validação (`Validation`) a partir do conjunto de treinamento original para apoiar a análise de convergência do modelo e evitar *overfitting*.
+4. **Catalogação Automatizada:**
+   Criação de um arquivo consolidado de metadados (`metadata_dataset.csv`) para rastreabilidade de caminhos de arquivos, rótulos e splits associados.
 
-Essa organização permite que o Cientista de IA utilize os dados diretamente no treinamento da CNN simples e dos modelos de Transfer Learning.
+---
 
-6. Limitações e Aspectos Éticos
+## 🗂️ 5. Estrutura e Distribuição Final do Dataset
 
-Apesar de o dataset estar balanceado entre classes, não há informações detalhadas sobre idade, sexo, etnia, equipamento utilizado ou origem hospitalar das imagens. Isso limita análises de representatividade e impede avaliar possíveis vieses populacionais. Por isso, o modelo desenvolvido neste projeto deve ser interpretado apenas como protótipo acadêmico de apoio à decisão, não como ferramenta clínica definitiva.
+Após a execução do pipeline de dados, o volume total de 7.200 imagens foi balanceado e redistribuído da seguinte forma:
 
-7. Arquivos Entregues
+| Classe | Treinamento (*Train*) | Validação (*Val*) | Teste (*Test*) | Total por Classe |
+| :--- | :---: | :---: | :---: | :---: |
+| **Glioma** | 1.190 | 210 | 400 | **1.800** |
+| **Meningioma** | 1.190 | 210 | 400 | **1.800** |
+| **No Tumor** | 1.190 | 210 | 400 | **1.800** |
+| **Pituitary** | 1.190 | 210 | 400 | **1.800** |
+| **TOTAL** | **4.760** | **840** | **1.600** | **7.200** |
 
-Foram gerados os seguintes artefatos:
+---
 
-- processed_dataset.zip
-- metadata_dataset.csv
-- relatorio_pipeline.pdf
-- distribuicao_dataset.png
-- exemplos_classes.png
-- antes_depois_preprocessamento.png
-- dashboard_dataset_final.png
+## 📁 6. Arquitetura do Dataset Processado
 
-Com isso, a etapa de Engenharia de Dados e Pipeline foi concluída, entregando um dataset estruturado, validado e pronto para o treinamento dos modelos de classificação de imagens médicas.
+Devido às restrições de tamanho de arquivos individuais e armazenamento direto no repositório do GitHub, os dados processados foram organizados e **compactados por classe**. Abaixo está representada a árvore de diretórios do ambiente:
 
-8. Estrutura do Dataset Processado
-
-Os dados processados foram organizados em três conjuntos:
-
-- train/
-- val/
-- test/
-
-Devido às limitações de tamanho do GitHub, os conjuntos foram compactados por classe.
-
-Exemplo:
-
+```text
 processed/
 ├── train/
 │   ├── train_glioma.zip
@@ -89,29 +85,3 @@ processed/
     ├── test_meningioma.zip
     ├── test_notumor.zip
     └── test_pituitary.zip
-
-## Entrega para o Cientista de IA
-
-O conjunto de dados encontra-se totalmente preparado para treinamento de modelos de Deep Learning.
-
-Características finais:
-
-* Formato RGB
-* Resolução padronizada em 224x224 pixels
-* Normalização aplicada
-* Dataset balanceado
-* Divisão em:
-
-  * Train (4.760 imagens)
-  * Validation (840 imagens)
-  * Test (1.600 imagens)
-
-Classes disponíveis:
-
-* Glioma
-* Meningioma
-* No Tumor
-* Pituitary
-
-Os dados estão organizados em estrutura compatível com TensorFlow/Keras e PyTorch, permitindo treinamento direto de modelos CNN e arquiteturas de Transfer Learning.
-
