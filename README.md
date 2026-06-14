@@ -473,6 +473,18 @@ Implementação completa da integração mobile com backend:
 | Endrew Alves | RM563646 | Documentador e Gestor de Entrega |
 
 ---
+---
+
+## 👩‍🏫 Professores
+
+### Tutor(a)
+- <a href="https://linkedin.com/in/caique-nonato">CAIQUE NONATO DA SILVA BEZERRA</a>
+
+### Coordenador(a)
+- <a href="https://www.linkedin.com/in/andregodoichiovato/">ANDRÉ GODOI CHIOVATO</a>
+
+---
+
 
 <p align="center">
   <strong>FIAP · 3º Semestre · Inteligência Artificial · 2026</strong>
