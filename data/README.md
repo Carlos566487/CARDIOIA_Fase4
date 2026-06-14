@@ -1,117 +1,552 @@
-CARDIOIA — FASE 4
-Relatório Técnico — Engenheiro de Dados e Pipeline
+<p align="center">
+  <img src="https://img.shields.io/badge/FIAP-Inteligência%20Artificial-red?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Fase%204-Visão%20Computacional-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Python-3.10+-green?style=for-the-badge&logo=python" />
+  <img src="https://img.shields.io/badge/React%20Native-Expo-9cf?style=for-the-badge&logo=expo" />
+  <img src="https://img.shields.io/badge/Flask-Backend-lightgrey?style=for-the-badge&logo=flask" />
+  <img src="https://img.shields.io/badge/TensorFlow-2.16-orange?style=for-the-badge&logo=tensorflow" />
+</p>
 
-1. Objetivo da Etapa
+<h1 align="center">🫀 CardioIA — Fase 4</h1>
+<h3 align="center">Assistente Cardiológico Virtual com Visão Computacional</h3>
 
-Esta etapa teve como objetivo preparar o conjunto de imagens médicas para utilização nos modelos de Visão Computacional do projeto CardioIA. A responsabilidade do Engenheiro de Dados e Pipeline foi transformar imagens brutas em dados organizados, padronizados e prontos para treinamento de redes neurais convolucionais.
+<p align="center">
+  Classificação de imagens médicas por CNN com interface mobile · FIAP · 2026
+</p>
 
-2. Dataset Selecionado
+<p align="center">
+  <a href="#-contexto">Contexto</a> ·
+  <a href="#-objetivo">Objetivo</a> ·
+  <a href="#-dataset">Dataset</a> ·
+  <a href="#-arquitetura-do-projeto">Arquitetura</a> ·
+  <a href="#-pipeline-de-pré-processamento">Pipeline</a> ·
+  <a href="#-modelos-cnn">Modelos</a> ·
+  <a href="#-interface-mobile">Mobile</a> ·
+  <a href="#-backend-flask">Backend</a> ·
+  <a href="#-como-rodar">Como Rodar</a> ·
+  <a href="#-estrutura-do-repositório">Estrutura</a> ·
+  <a href="#-critérios-de-avaliação">Avaliação</a> ·
+  <a href="#-ir-além">Ir Além</a> ·
+  <a href="#-grupo">Grupo</a>
+</p>
 
-Foi selecionado o Brain Tumor MRI Dataset, composto por 7.200 imagens de ressonância magnética cerebral organizadas em quatro classes: Glioma, Meningioma, No Tumor e Pituitary. A escolha foi feita por se tratar de um dataset público, estruturado, balanceado e adequado para classificação multiclasses em imagens médicas.
+---
 
-3. Inspeção Inicial dos Dados
+> ⚕️ **Aviso Clínico:** Este sistema é um **protótipo educacional** desenvolvido para a disciplina de Inteligência Artificial da FIAP. Os resultados **não devem ser utilizados para diagnóstico clínico real**. Consulte sempre um profissional de saúde habilitado.
 
-A inspeção inicial identificou que o dataset original estava dividido em dois conjuntos principais: Training e Testing. Cada classe possuía 1.400 imagens no conjunto de treinamento e 400 imagens no conjunto de teste, totalizando 7.200 imagens. Também foi verificado que as imagens estavam em formato JPEG, majoritariamente com resolução 512×512 pixels, em modo L, ou seja, escala de cinza.
+---
 
-4. Pré-processamento Aplicado
+## 🧠 Contexto
 
-Foram aplicadas as seguintes etapas de pré-processamento:
+Após estruturarmos o monitoramento contínuo na fase anterior, o **CardioIA** avança para a **análise de dados médicos com Visão Computacional**. O desafio desta fase é desenvolver um protótipo capaz de transformar imagens médicas simuladas em informações interpretáveis, auxiliando a tomada de decisão clínica.
 
-- Conversão das imagens de escala de cinza para RGB;
-- Redimensionamento das imagens para 224×224 pixels;
-- Organização das imagens em diretórios padronizados;
-- Criação do conjunto de validação a partir do conjunto original de treinamento;
-- Geração de arquivo metadata_dataset.csv contendo caminho da imagem, classe e split correspondente.
+São exploradas técnicas como **Redes Neurais Convolucionais (CNNs)**, pré-processamento de imagens e Transfer Learning com modelos pré-treinados como **VGG16** e **ResNet**, aplicados a um contexto realista de suporte à saúde.
 
-A conversão para RGB foi necessária para garantir compatibilidade com modelos de Transfer Learning, como VGG16, ResNet e MobileNet, que normalmente recebem imagens com três canais. O redimensionamento para 224×224 pixels foi adotado por ser um padrão amplamente utilizado em arquiteturas convolucionais pré-treinadas.
+> 💡 **Por que CNN?** Uma CNN detecta bordas, formas e padrões de forma hierárquica — assim como o cérebro humano reconhece objetos. Aplicada à medicina, ela aprende a identificar anomalias em imagens que o olho humano processaria lentamente em escala.
 
-5. Estrutura Final do Dataset
+---
 
-Após o pipeline, o dataset processado ficou organizado em três conjuntos:
+## 🎯 Objetivo
 
-Train: 4.760 imagens
-Validation: 840 imagens
-Test: 1.600 imagens
+O protótipo entrega quatro componentes integrados:
 
-Cada classe manteve distribuição balanceada:
+| Componente | Responsável | Descrição |
+|------------|-------------|-----------|
+| **Pipeline de dados** | Tayná Esteves | Pré-processamento completo de imagens médicas (Brain Tumor MRI — Kaggle) |
+| **Modelos CNN** | João | CNN do zero + Transfer Learning (VGG16/ResNet) com métricas completas |
+| **Interface mobile** | Carlos Eduardo | App React Native / Expo para upload e exibição dos resultados |
+| **Backend REST** | Carlos Eduardo | API Flask com endpoint `/predict` para inferência em tempo real |
 
-Train: 1.190 imagens por classe
-Validation: 210 imagens por classe
-Test: 400 imagens por classe
+---
 
-Essa organização permite que o Cientista de IA utilize os dados diretamente no treinamento da CNN simples e dos modelos de Transfer Learning.
+## 🗂 Dataset
 
-6. Limitações e Aspectos Éticos
+**[Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset)** — Kaggle
+7.200 imagens de ressonância magnética cerebral, 4 classes balanceadas.
 
-Apesar de o dataset estar balanceado entre classes, não há informações detalhadas sobre idade, sexo, etnia, equipamento utilizado ou origem hospitalar das imagens. Isso limita análises de representatividade e impede avaliar possíveis vieses populacionais. Por isso, o modelo desenvolvido neste projeto deve ser interpretado apenas como protótipo acadêmico de apoio à decisão, não como ferramenta clínica definitiva.
+### Classes
 
-7. Arquivos Entregues
+| Classe | Descrição |
+|--------|-----------|
+| `glioma` | Tumor do tipo glioma |
+| `meningioma` | Tumor do tipo meningioma |
+| `notumor` | Sem tumor detectado |
+| `pituitary` | Tumor na hipófise (glândula pituitária) |
 
-Foram gerados os seguintes artefatos:
+### Inspeção do Dataset Original
 
-- processed_dataset.zip
-- metadata_dataset.csv
-- relatorio_pipeline.pdf
-- distribuicao_dataset.png
-- exemplos_classes.png
-- antes_depois_preprocessamento.png
-- dashboard_dataset_final.png
+O dataset original estava dividido em dois conjuntos:
 
-Com isso, a etapa de Engenharia de Dados e Pipeline foi concluída, entregando um dataset estruturado, validado e pronto para o treinamento dos modelos de classificação de imagens médicas.
+| Conjunto | Imagens por Classe | Total |
+|----------|:---:|:---:|
+| Training | 1.400 | 5.600 |
+| Testing | 400 | 1.600 |
+| **Total** | | **7.200** |
 
-8. Estrutura do Dataset Processado
+- **Formato:** JPEG
+- **Resolução original:** majoritariamente 512×512 pixels
+- **Modo:** `L` (escala de cinza)
 
-Os dados processados foram organizados em três conjuntos:
+### Distribuição após Pipeline
 
-- train/
-- val/
-- test/
+| Split | Total de Imagens | Imagens por Classe | % do Total |
+|-------|:---:|:---:|:---:|
+| **Train** | 4.760 | 1.190 | 70% |
+| **Validation** | 840 | 210 | 15% |
+| **Test** | 1.600 | 400 | 15% |
 
-Devido às limitações de tamanho do GitHub, os conjuntos foram compactados por classe.
+### Análise Exploratória
 
-Exemplo:
+| Distribuição do Dataset | Exemplos por Classe |
+|:-:|:-:|
+| ![Distribuição](data/Figura%201%20—%20distribuicao_dataset.png) | ![Exemplos](data/Figura%202%20-%20exemplos_classes.png) |
 
-processed/
+| Antes e Depois do Pré-processamento | Dashboard Final |
+|:-:|:-:|
+| ![Pré-processamento](data/Figura%203%20-%20antes_depois_preprocessamento.png) | ![Dashboard](data/Figura%204%20-%20dashboard_dataset_final.png) |
+
+---
+
+## 🏗 Arquitetura do Projeto
+
+```
+Imagem Médica
+     │
+     ▼
+┌──────────────────┐
+│   App Expo       │  React Native · galeria ou câmera
+│   (mobile)       │
+└────────┬─────────┘
+         │ POST /predict  (multipart/form-data)
+         ▼
+┌──────────────────┐
+│  Flask Backend   │  Python · pré-processamento · inferência
+│    app.py        │
+└────────┬─────────┘
+         │ model.predict(image_array)
+         ▼
+┌──────────────────┐
+│   Modelo CNN     │  TensorFlow / Keras · arquivo .h5
+│   (Keras)        │
+└────────┬─────────┘
+         │ { classe, confiança, probabilidades }
+         ▼
+┌──────────────────┐
+│  Tela Resultado  │  badge colorido · barras · aviso clínico
+└──────────────────┘
+```
+
+---
+
+## ⚙️ Pipeline de Pré-processamento
+
+**Responsável:** Tayná Esteves — RM562491
+**Notebook Colab:** [Abrir no Google Colab](https://colab.research.google.com/drive/1S-5SZZlKrsEn6lZ6APxJXYsTi5yX8mSX#scrollTo=ISjNHrAtTyMY)
+**Relatório Técnico:** [`docs/relatorio_pipeline.pdf`](docs/relatorio_pipeline.pdf)
+
+### Etapas do Pipeline
+
+```
+Dataset Bruto (512×512, JPEG, escala de cinza)
+       │
+       ▼  1. Inspeção Inicial
+       │     Contagem por classe · distribuição · verificação de dimensões e integridade
+       │     Identificação: 2 splits originais (Training + Testing) · modo L
+       │
+       ▼  2. Conversão RGB
+       │     Escala de cinza (1 canal) → RGB (3 canais)
+       │     Motivo: compatibilidade com VGG16, ResNet, MobileNet
+       │
+       ▼  3. Redimensionamento
+       │     512×512 px  →  224×224 px
+       │     Motivo: padrão das arquiteturas CNN pré-treinadas no ImageNet
+       │
+       ▼  4. Normalização
+       │     Escala de pixels [0, 255]  →  [0.0, 1.0]
+       │
+       ▼  5. Divisão dos Conjuntos
+       │     Validação extraída do Training original
+       │     Train 70%  ·  Validation 15%  ·  Test 15%
+       │
+       ▼  6. Geração de Metadados
+              data/metadata_dataset.csv
+              Colunas: caminho_imagem · classe · split
+```
+
+### Decisões Técnicas
+
+| Decisão | Justificativa |
+|---------|---------------|
+| Conversão para RGB | Modelos de Transfer Learning (VGG16, ResNet, MobileNet) recebem 3 canais por padrão |
+| Resize 224×224 | Padrão amplamente adotado em arquiteturas convolucionais pré-treinadas no ImageNet |
+| Criação de conjunto de validação | O dataset original não incluía split de validação; necessário para monitorar overfitting |
+| Compactação por classe | Arquivos excedem o limite de upload do GitHub (100 MB por arquivo) |
+
+### Artefatos Gerados
+
+| Arquivo | Descrição |
+|---------|-----------|
+| `processed_dataset.zip` | Dataset processado completo |
+| `data/metadata_dataset.csv` | Inventário completo: caminho · classe · split |
+| `docs/relatorio_pipeline.pdf` | Relatório técnico da etapa de dados |
+| `data/Figura 1 — distribuicao_dataset.png` | Gráfico de distribuição por classe |
+| `data/Figura 2 - exemplos_classes.png` | Amostras visuais por classe |
+| `data/Figura 3 - antes_depois_preprocessamento.png` | Comparativo antes/depois do pipeline |
+| `data/Figura 4 - dashboard_dataset_final.png` | Dashboard consolidado do dataset |
+
+### Formato de Saída
+
+```
+data/processed/
 ├── train/
-│   ├── train_glioma.zip
-│   ├── train_meningioma.zip
-│   ├── train_notumor.zip
-│   └── train_pituitary.zip
-│
+│   ├── train_glioma.zip        (1.190 imagens · RGB · 224×224)
+│   ├── train_meningioma.zip    (1.190 imagens · RGB · 224×224)
+│   ├── train_notumor.zip       (1.190 imagens · RGB · 224×224)
+│   └── train_pituitary.zip     (1.190 imagens · RGB · 224×224)
 ├── val/
-│   ├── val_glioma.zip
-│   ├── val_meningioma.zip
-│   ├── val_notumor.zip
-│   └── val_pituitary.zip
-│
+│   ├── val_glioma.zip          (210 imagens · RGB · 224×224)
+│   ├── val_meningioma.zip      (210 imagens · RGB · 224×224)
+│   ├── val_notumor.zip         (210 imagens · RGB · 224×224)
+│   └── val_pituitary.zip       (210 imagens · RGB · 224×224)
 └── test/
-    ├── test_glioma.zip
-    ├── test_meningioma.zip
-    ├── test_notumor.zip
-    └── test_pituitary.zip
+    ├── test_glioma.zip         (400 imagens · RGB · 224×224)
+    ├── test_meningioma.zip     (400 imagens · RGB · 224×224)
+    ├── test_notumor.zip        (400 imagens · RGB · 224×224)
+    └── test_pituitary.zip      (400 imagens · RGB · 224×224)
+```
 
-## Entrega para o Cientista de IA
+> ⚠️ Os dados compactados por classe superam os limites de arquivo do GitHub. **Extraia localmente** antes de treinar.
 
-O conjunto de dados encontra-se totalmente preparado para treinamento de modelos de Deep Learning.
+### Compatibilidade
 
-Características finais:
+Os dados estão prontos para uso direto com:
 
-* Formato RGB
-* Resolução padronizada em 224x224 pixels
-* Normalização aplicada
-* Dataset balanceado
-* Divisão em:
+```python
+# TensorFlow / Keras
+tf.keras.preprocessing.image_dataset_from_directory(...)
 
-  * Train (4.760 imagens)
-  * Validation (840 imagens)
-  * Test (1.600 imagens)
+# PyTorch
+torchvision.datasets.ImageFolder(...)
+```
 
-Classes disponíveis:
+---
 
-* Glioma
-* Meningioma
-* No Tumor
-* Pituitary
+## 🤖 Modelos CNN
 
-Os dados estão organizados em estrutura compatível com TensorFlow/Keras e PyTorch, permitindo treinamento direto de modelos CNN e arquiteturas de Transfer Learning.
+**Responsável:** João — RM565999
 
+### Abordagem 1 — CNN Simples do Zero
+
+Rede treinada do zero com camadas convolucionais progressivas para extração hierárquica de features.
+
+```python
+model = Sequential([
+    Conv2D(32, (3, 3), activation='relu', input_shape=(224, 224, 3)),
+    MaxPooling2D(2, 2),
+    Conv2D(64, (3, 3), activation='relu'),
+    MaxPooling2D(2, 2),
+    Conv2D(128, (3, 3), activation='relu'),
+    MaxPooling2D(2, 2),
+    Flatten(),
+    Dense(512, activation='relu'),
+    Dropout(0.5),
+    Dense(4, activation='softmax')   # 4 classes
+])
+```
+
+### Abordagem 2 — Transfer Learning (VGG16 / ResNet)
+
+Aproveitamento de pesos pré-treinados no ImageNet (14M imagens) com fine-tuning para o domínio médico.
+
+```python
+base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+base_model.trainable = False   # congela base; fine-tuning posterior
+
+x = GlobalAveragePooling2D()(base_model.output)
+x = Dense(256, activation='relu')(x)
+x = Dropout(0.4)(x)
+output = Dense(4, activation='softmax')(x)
+
+model = Model(inputs=base_model.input, outputs=output)
+```
+
+### Métricas de Avaliação
+
+- ✅ Acurácia (por época — curvas de treino e validação)
+- ✅ Precisão, Recall e F1-score por classe
+- ✅ Matriz de confusão (CNN simples vs. Transfer Learning)
+
+> O modelo exportado (`cardioia_model.h5`) deve ser colocado em `models/` para ativar a inferência real no backend.
+
+---
+
+## 📱 Interface Mobile
+
+**Responsável:** Carlos Eduardo — RM566487
+**Tecnologias:** React Native · Expo SDK 51 · Expo Router
+
+### Telas
+
+| | Tela Home | Tela Resultado |
+|---|---|---|
+| **Função** | Upload por galeria ou câmera | Resultado completo da análise |
+| **Elementos** | Preview da imagem · botão "Analisar imagem →" · indicador de carregamento | Classe detectada · confiança · barras de probabilidade por classe · badge colorido · aviso clínico obrigatório |
+
+### Fluxo de Uso
+
+```
+1. Abrir o app
+2. Tocar em "Galeria" ou "Câmera"
+3. Selecionar / fotografar a imagem médica
+4. Tocar em "Analisar imagem →"
+5. Aguardar inferência (indicador de carregamento)
+6. Ver resultado: classe · confiança · probabilidades
+```
+
+### Código de Cores dos Resultados
+
+| Badge | Classe | Significado |
+|-------|--------|-------------|
+| 🟢 Verde | `notumor` | Nenhum tumor detectado |
+| 🟡 Amarelo | `meningioma` / `pituitary` | Tumor de risco relativo menor |
+| 🔴 Vermelho | `glioma` | Tumor de alto risco relativo |
+
+---
+
+## 🖥 Backend Flask
+
+**Tecnologias:** Python 3.10 · Flask 3.0 · Pillow · NumPy · TensorFlow 2.16
+
+### Endpoints
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `GET` | `/health` | Verifica se o servidor está ativo e o modelo está carregado |
+| `GET` | `/classes` | Retorna a lista de classes do modelo |
+| `POST` | `/predict` | Recebe uma imagem e retorna a classificação |
+
+### Exemplo de Resposta — `POST /predict`
+
+```json
+{
+  "predicted_class": "glioma",
+  "confidence": 94.3,
+  "probabilities": {
+    "glioma": 94.3,
+    "meningioma": 2.1,
+    "notumor": 2.9,
+    "pituitary": 0.7
+  },
+  "is_placeholder": false
+}
+```
+
+### Pré-processamento da Imagem no Backend
+
+O backend replica o mesmo pipeline aplicado no treinamento:
+
+```python
+img = Image.open(io.BytesIO(image_bytes)).convert("RGB")  # garante 3 canais
+img = img.resize((224, 224))                               # padrão do modelo
+arr = np.array(img, dtype=np.float32) / 255.0             # normalização [0, 1]
+return np.expand_dims(arr, axis=0)                         # shape: (1, 224, 224, 3)
+```
+
+---
+
+## 🚀 Como Rodar
+
+### Pré-requisitos
+
+| Ferramenta | Versão mínima |
+|------------|:---:|
+| Python | 3.10+ |
+| Node.js | 18+ |
+| Expo Go (celular) | Versão mais recente |
+
+---
+
+### 1. Clone o Repositório
+
+```bash
+git clone https://github.com/Carlos566487/CARDIOIA_Fase4.git
+cd CARDIOIA_Fase4
+```
+
+---
+
+### 2. Backend Flask
+
+```bash
+cd cardioia/backend
+
+# Instale as dependências
+pip install -r requirements.txt
+
+# (Opcional) Ativar o modelo real de CNN
+# 1. Coloque cardioia_model.h5 dentro de models/
+# 2. Instale o TensorFlow
+pip install tensorflow==2.16.1
+# 3. Descomente os blocos marcados em app.py
+
+# Inicie o servidor
+python app.py
+# → Servidor rodando em http://0.0.0.0:5000
+```
+
+**Testar manualmente:**
+
+```bash
+# Health check
+curl http://localhost:5000/health
+
+# Classificar uma imagem
+curl -X POST http://localhost:5000/predict \
+  -F "image=@caminho/para/imagem.jpg"
+```
+
+---
+
+### 3. App Mobile (Expo)
+
+```bash
+cd cardioia/mobile
+
+# Instale as dependências
+npm install
+
+# Configure o IP do backend
+# Edite app/config/api.js e substitua DEV_IP pelo seu IP local:
+#   macOS/Linux: ifconfig | grep "inet "
+#   Windows:     ipconfig | findstr "IPv4"
+
+# Inicie o app
+npx expo start
+```
+
+Escaneie o **QR code** com o app **Expo Go** instalado no celular.
+
+> ⚠️ O celular e o computador precisam estar na **mesma rede Wi-Fi**.
+
+---
+
+### 4. Notebook de Pré-processamento (Google Colab)
+
+🔗 [Abrir notebook no Colab](https://colab.research.google.com/drive/1S-5SZZlKrsEn6lZ6APxJXYsTi5yX8mSX#scrollTo=ISjNHrAtTyMY)
+
+Execução recomendada: **Runtime → Run all** após montar o Google Drive com o dataset bruto.
+
+---
+
+## 📁 Estrutura do Repositório
+
+```
+CARDIOIA_Fase4/
+│
+├── cardioia/
+│   ├── backend/
+│   │   ├── app.py                  # API Flask — endpoints /health, /classes, /predict
+│   │   └── requirements.txt        # Dependências Python
+│   │
+│   ├── mobile/
+│   │   ├── app/
+│   │   │   ├── _layout.jsx         # Configuração de navegação (Expo Router)
+│   │   │   ├── index.jsx           # Tela de upload de imagem
+│   │   │   ├── result.jsx          # Tela de resultado da classificação
+│   │   │   └── config/
+│   │   │       └── api.js          # URL do backend (ajustar IP local)
+│   │   ├── app.json
+│   │   └── package.json
+│   │
+│   └── README.md                   # Documentação do módulo mobile/backend
+│
+├── data/
+│   ├── metadata_dataset.csv        # Inventário completo: caminho · classe · split
+│   ├── Figura 1 — distribuicao_dataset.png
+│   ├── Figura 2 - exemplos_classes.png
+│   ├── Figura 3 - antes_depois_preprocessamento.png
+│   ├── Figura 4 - dashboard_dataset_final.png
+│   ├── raw/                        # Dados brutos (não versionados)
+│   └── processed/
+│       ├── train/                  # train_{classe}.zip  — 4.760 imgs (70%)
+│       ├── val/                    # val_{classe}.zip    —   840 imgs (15%)
+│       └── test/                   # test_{classe}.zip   — 1.600 imgs (15%)
+│
+├── docs/
+│   └── relatorio_pipeline.pdf      # Relatório técnico — Engenharia de Dados
+│
+├── models/
+│   └── cardioia_model.h5           # Modelo treinado (não versionado — gerar localmente)
+│
+├── notebooks/
+│   └── 01_preprocessamento_pipeline.ipynb
+│
+├── outputs/
+│   ├── figures/                    # Curvas de loss e acurácia por época
+│   ├── metrics/                    # Métricas e matrizes de confusão
+│   └── samples/                    # Amostras de predições do conjunto de teste
+│
+└── scr/
+    └── preprocessing.py            # Script Python standalone do pipeline
+```
+
+---
+
+## 📊 Critérios de Avaliação
+
+| Critério | Responsável | Pontos |
+|----------|-------------|:------:|
+| Pipeline de pré-processamento implementado | Tayná — Int. 1 | **3 pts** |
+| Treinamento e avaliação de CNN do zero | João — Int. 2 | **2 pts** |
+| Implementação de Transfer Learning funcional | João — Int. 2 | **2 pts** |
+| Apresentação dos resultados em protótipo | Carlos — Int. 3 | **2 pts** |
+| Documentação clara | Endrew — Int. 4 | **1 pt** |
+| Trabalho em equipe (2 a 5 integrantes) | Todos | **+1 pt** |
+| **Total possível** | | **11 pts** |
+
+---
+
+## 🚀 Ir Além
+
+### Ir Além A — Ética e Governança em Visão Computacional
+
+O dataset **não contém informações demográficas** (idade, sexo, etnia, equipamento, origem hospitalar), o que limita análises de representatividade e impede detectar vieses populacionais.
+
+Pontos documentados no relatório técnico (`docs/relatorio_pipeline.pdf`):
+
+- **Representatividade:** ausência de metadados demográficos impede avaliar vieses populacionais
+- **Fairness:** o modelo pode ter desempenho desigual entre subpopulações não representadas
+- **Transparência:** todas as etapas do pipeline são rastreáveis via `metadata_dataset.csv`
+- **Limitação clínica:** o modelo deve ser interpretado exclusivamente como protótipo acadêmico de apoio à decisão, não como ferramenta diagnóstica
+
+### Ir Além B — Integração Mobile ✅
+
+Implementação completa end-to-end:
+
+- Interface React Native com upload via galeria e câmera
+- Backend Flask recebendo imagens reais via `multipart/form-data`
+- Pré-processamento no backend espelhando exatamente o pipeline de treinamento
+- Exibição de classe detectada, confiança e probabilidades por classe
+- Badge colorido para comunicação visual imediata
+- Aviso clínico obrigatório em todas as telas de resultado
+
+---
+
+## 👥 Grupo
+
+| Integrante | RM | Função Principal |
+|------------|:---:|-----------------|
+| Tayná Esteves | RM562491 | Engenheira de Dados e Pipeline |
+| João | RM565999 | Cientista de IA e Modelos CNN |
+| Carlos Eduardo | RM566487 | Desenvolvedor de Interface Mobile |
+| Endrew Alves | RM563646 | Documentador e Gestor de Entrega |
+
+---
+
+<p align="center">
+  <strong>FIAP · 3º Semestre · Inteligência Artificial · 2026</strong>
+</p>
+
+<p align="center">
+  Desenvolvido com ❤️ para a disciplina de <strong>Inteligência Artificial</strong> da FIAP
+</p>
