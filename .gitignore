@@ -1,0 +1,7 @@
+﻿node_modules/
+.expo/
+*.h5
+__pycache__/
+*.pyc
+.venv/
+bfg-1.15.0.jar

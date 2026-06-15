@@ -1,6 +1,10 @@
 flask==3.0.3
 flask-cors==4.0.1
+<<<<<<< HEAD
 Pillow==10.3.0
+=======
+Pillow>=10.3.0
+>>>>>>> b2e6e34e (Repositório limpo: histórico removido para corrigir limite de tamanho)
 numpy==1.26.4
 
 # Descomentar quando o modelo real do João (Integrante 2) estiver disponível:

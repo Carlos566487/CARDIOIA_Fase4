@@ -14,6 +14,11 @@ import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from PIL import Image
+<<<<<<< HEAD
+=======
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+>>>>>>> b2e6e34e (Repositório limpo: histórico removido para corrigir limite de tamanho)
 
 app = Flask(__name__)
 
@@ -53,7 +58,11 @@ def load_model():
         # print(f"✓ Modelo carregado: {MODEL_PATH}")
         pass
     else:
+<<<<<<< HEAD
         print("⚠ Modelo real não encontrado. Usando placeholder para desenvolvimento.")
+=======
+        print("[AVISO] Modelo real não encontrado. Usando placeholder para desenvolvimento.")
+>>>>>>> b2e6e34e (Repositório limpo: histórico removido para corrigir limite de tamanho)
         print(f"  Esperado em: {MODEL_PATH}")
         model = None
 
@@ -137,6 +146,14 @@ def classes():
     return jsonify({"classes": CLASS_NAMES})
 
 
+<<<<<<< HEAD
+=======
+@app.route('/')
+def home():
+    return "CardioIA Backend está rodando!"
+
+
+>>>>>>> b2e6e34e (Repositório limpo: histórico removido para corrigir limite de tamanho)
 @app.route("/predict", methods=["POST"])
 def predict():
     """

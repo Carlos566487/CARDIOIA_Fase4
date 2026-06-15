@@ -10,7 +10,11 @@
  *   Windows:     ipconfig | findstr "IPv4"
  */
 
+<<<<<<< HEAD
 const DEV_IP = "192.168.1.100"; // ← Substitua pelo seu IP local
+=======
+const DEV_IP = "192.168.15.53"; // IP detectado no backend
+>>>>>>> b2e6e34e (Repositório limpo: histórico removido para corrigir limite de tamanho)
 
 export const API_URL =
   process.env.NODE_ENV === "production"

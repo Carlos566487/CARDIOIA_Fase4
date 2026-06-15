@@ -311,6 +311,7 @@ cd CARDIOIA_Fase4
 ### 2. Backend Flask
 
 ```bash
+<<<<<<< HEAD
 cd cardioia/backend
 
 # Instale as dependências
@@ -325,6 +326,29 @@ pip install tensorflow==2.16.1
 # Inicie o servidor
 python app.py
 # → Servidor rodando em http://0.0.0.0:5000
+=======
+# 1. Entre na pasta do backend
+cd cardioia/backend
+
+# 2. Criar e ativar o Ambiente Virtual (Recomendado para Python 3.11 ou 3.12)
+# No Windows (PowerShell):
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# 3. Instale as dependências básicas
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# 4. (Opcional) Ativar o modelo real de CNN
+# a) Coloque o arquivo 'cardioia_model.h5' dentro da pasta 'models/'
+# b) Instale o TensorFlow (versão específica compatível com o projeto)
+pip install tensorflow==2.16.1
+# c) Descomente os blocos marcados como "MODELO_CNN" no arquivo 'app.py'
+
+# 5. Inicie o servidor
+python app.py
+# → O servidor estará rodando em http://localhost:5000
+>>>>>>> b2e6e34e (Repositório limpo: histórico removido para corrigir limite de tamanho)
 ```
 
 **Testar manualmente:**
